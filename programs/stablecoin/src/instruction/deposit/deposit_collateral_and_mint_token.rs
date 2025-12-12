@@ -1,5 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{Mint, Token2022, TokenAccount, };
+use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
+
 use crate::{Config, Collateral, SEED_CONFIG_ACCOUNT, SEED_COLLATERAL_ACCOUNT, SEED_SOL_ACCOUNT};
 
 
@@ -16,7 +18,7 @@ pub struct DepositCollateralAndMintToken<'info> {
         has_one = mint_account,
 
     )]
-    pub config_account: Account<'info, Config>,
+    pub config_account: Box<Account<'info, Config>>,
 
     #[account(mut)]
     pub mint_account: InterfaceAccount<'info, Mint>,
@@ -46,6 +48,7 @@ pub struct DepositCollateralAndMintToken<'info> {
     pub associated_token_program: Program<'info, AssociatedToken>,
 
     pub system_program: Program<'info, System>,
+    pub price_update: Account<'info, PriceUpdate>,
     
 
 }
