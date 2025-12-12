@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 
 #[account]
 #[derive(InitSpace, Debug)]
-pub struct collateralVault {
+pub struct Collateral {
      pub depositor: Pubkey,
      pub sol_amount: Pubkey,
      pub token_amount: Pubkey,

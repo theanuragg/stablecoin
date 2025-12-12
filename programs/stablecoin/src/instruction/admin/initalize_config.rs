@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use crate::{Config, MINT_DECIMAL, SEED_CONFIG_ACCOUNT, SEED_MINT_ACCOUNT, LIQUIDITION_BONUS, LiQUIDITION_THRESHOLD, MIN_HEALTH_FACTOR};
+use crate::{Config, MINT_DECIMAL,  SEED_MINT_ACCOUNT, LIQUIDITION_BONUS, LiQUIDITION_THRESHOLD, MIN_HEALTH_FACTOR};
 use anchor_spl::token_interface::{Mint, Token2022};
 // Instruction to initialize the config account
 #[derive(Accounts)]
