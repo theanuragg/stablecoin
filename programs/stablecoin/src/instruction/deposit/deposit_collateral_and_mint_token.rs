@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token_interface::{Mint, Token2022, TokenAccount, };
+use anchor_spl::{associated_token::spl_associated_token_account::solana_program::example_mocks::solana_account::Account, token_interface::{Mint, Token2022, TokenAccount, }};
 use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
 
 use crate::{Config, Collateral, SEED_CONFIG_ACCOUNT, SEED_COLLATERAL_ACCOUNT, SEED_SOL_ACCOUNT};
@@ -51,4 +51,26 @@ pub struct DepositCollateralAndMintToken<'info> {
     pub price_update: Account<'info, PriceUpdate>,
     
 
+}
+
+
+pub fn process_deposit_collateral_and_mint_token(
+    ctx: Context<DepositCollateralAndMintToken>,
+    amount_to_mint: u64,
+    amount_collateral: u64,   
+) -> Result<()> {
+    
+
+    let Collateral_account: &mut Account<'info, Collateral> = &mut ctx.accounts.collateral_account;
+    Collateral_account.lamports_balance += amount_collateral;
+    Collateral_account.amount_minted += amount_to_mint;
+
+    if !Collateral_account.is_initialized {
+        Collateral_account.depositor = ctx.accounts.depositor.key();
+        Collateral_account.sol_amount = ctx.accounts.sol_account.key();
+        Collateral_account.token_amount = ctx.accounts.token_account.key();
+        Collateral_account.bump = ctx.bumps.collateral_account;
+        Collateral_account.is_initialized = true;
+    }
+    Ok(())
 }
