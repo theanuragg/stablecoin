@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::{associated_token::spl_associated_token_account::solana_program::example_mocks::solana_account::Account, token_interface::{Mint, Token2022, TokenAccount, }};
 use pyth_solana_receiver_sdk::price_update::PriceUpdateV2;
 
-use crate::{Collateral, Config, SEED_COLLATERAL_ACCOUNT, SEED_CONFIG_ACCOUNT, SEED_SOL_ACCOUNT, instruction::{desposit_sol, mint_tokens}};
+use crate::{Collateral, Config, SEED_COLLATERAL_ACCOUNT, SEED_CONFIG_ACCOUNT, SEED_SOL_ACCOUNT, instruction::{check_health_factor, desposit_sol, mint_tokens}};
 
 
 
@@ -72,6 +72,11 @@ pub fn process_deposit_collateral_and_mint_token(
         Collateral_account.bump = ctx.bumps.collateral_account;
         Collateral_account.is_initialized = true;
     }
+
+    check_health_factor(
+        &ctx.accounts.collateral_account,
+        &ctx.accounts.config_account, 
+        &ctx.accounts.price_update)?;
 
     deposit_sol(
         &ctx.accounts.depositor,
