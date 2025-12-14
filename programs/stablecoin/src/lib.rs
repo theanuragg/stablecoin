@@ -5,8 +5,10 @@ use constraints::*;
 mod constraints;
 use instruction::*;
 mod instruction;
+pub mod error;
+use error::CustomError;
 
-declare_id!("7MKHVRryd6nmqHJsCrhsHUxfU3gnUxAd5Zn2jnpFPMaL");
+declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
 #[program]
 pub mod stablecoin {
@@ -23,14 +25,26 @@ pub mod stablecoin {
     }
 
     pub fn deposit_collateral_and_mint_token(
-        ctx: Context<DepositCollateralAndMintToken>,
-        amount_to_deposit: u64,
-        amount_to_mint: u64,
+    ctx: Context<DepositCollateralAndMintToken>,
+    amount_collateral: u64,  // ← FIRST
+    amount_to_mint: u64,     // ← SECOND
+) -> Result<()> {
+    process_deposit_collateral_and_mint_token(
+        ctx,
+        amount_collateral,  // ← Pass FIRST
+        amount_to_mint,     // ← Pass SECOND
+    )
+}
+
+    pub fn redeem_collateral_and_burn_tokens(
+        ctx: Context<RedeemCollateralBurnTokens>,
+        amount_collateral: u64,
+        amount_to_burn: u64,
     ) -> Result<()> {
-        process_deposit_collateral_and_mint_token(
+        process_redeem_collateral_and_burn_tokens(
             ctx,
-            amount_to_deposit,
-            amount_to_mint,
+            amount_collateral,
+            amount_to_burn,
         )
     }
 }
