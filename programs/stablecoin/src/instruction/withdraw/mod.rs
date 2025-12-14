@@ -1,4 +1,5 @@
-pub mod redeem_collateral_burn_tokens;
-use redeem_collateral_burn_tokens::*;
-pub mod utils;
-use utils::*;
+pub use redeem_collateral_burn_tokens::*;
+mod redeem_collateral_burn_tokens;
+
+pub use utils::*;
+mod utils;
