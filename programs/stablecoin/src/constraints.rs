@@ -12,6 +12,6 @@ pub const PRICE_FEED_DECIMAL_ADJUSTMENT: u8 = 6;
 
 
 pub const MINT_DECIMAL: u8 = 9;
-pub const LiQUIDITION_THRESHOLD: u64 = 50; // 75%
+//pub const LiQUIDITION_THRESHOLD: u64 = 50; // 75%
 pub const LIQUIDITION_BONUS: u64 = 5; // 5
 pub const MIN_HEALTH_FACTOR: u64 = 100; // 100%
