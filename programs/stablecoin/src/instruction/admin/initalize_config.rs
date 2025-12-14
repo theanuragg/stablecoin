@@ -6,8 +6,14 @@ use anchor_spl::token_interface::{Mint, Token2022};
 pub struct InitializeConfig<'info> {
     #[account(mut)]
     pub authority: Signer<'info>,
-    #[account(init, payer = authority, space = 8 + Config::INIT_SPACE,)]
-    pub config_account: Account<'info, Config>,
+    #[account(
+    init, 
+    payer = authority, 
+    space = 8 + Config::INIT_SPACE,
+    seeds = [b"config"], // or appropriate seed
+    bump
+    )]
+     pub config_account: Account<'info, Config>,
 
     #[account(
         init,
@@ -18,10 +24,12 @@ pub struct InitializeConfig<'info> {
         mint::authority = mint_account,
         mint::freeze_authority = mint_account,
         mint::token_program = token_program,
+
     )]
     pub mint_account: InterfaceAccount<'info, Mint>,
     pub token_program: Program<'info, Token2022>,
     pub system_program: Program<'info, System>,
+    
 }
 // Function to process the initialize config instruction
 pub fn process_initialize_config(ctx: Context<InitializeConfig>) -> Result<()> {
